@@ -33,7 +33,7 @@ opt_einsum
 optree
 packaging
 protobuf
-pyasn1
+pyasn1==0.6.1
 pyasn1_module
 Pygments
 requests
