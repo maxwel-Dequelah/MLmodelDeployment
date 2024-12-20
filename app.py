@@ -5,11 +5,11 @@ import pickle
 app = Flask(__name__)
 
 # Load the model
+model = pickle.load(open('model2.pkl', "rb"))
+
 @app.route("/", methods=["GET"])
 def home():
     return "<h1>Hello world</h1>"
-
-model=pickle.load(open('model2.pkl',"rb"))
 
 @app.route("/predict/", methods=["POST"])
 def predict():
@@ -25,13 +25,14 @@ def predict():
         if not required_keys.issubset(data.keys()):
             return jsonify({"error": f"Input must contain keys: {required_keys}"}), 400
 
-        # Extract and combine input values
+        # Prepare input
         inputs = [data["account"], data["toaccount"], data["amount"]]
+        # Update this based on your model type
         concatenated_input = " ".join(inputs)
+        processed_input = [concatenated_input]  # Adjust this for numeric models
 
-        # Preprocess input
-        # Assuming the model handles tokenization and preprocessing internally
-        prediction = model.predict([concatenated_input])[0]
+        # Predict
+        prediction = model.predict(processed_input)[0]
 
         # Return result
         return jsonify({
