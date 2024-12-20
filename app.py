@@ -5,10 +5,13 @@ import pickle
 app = Flask(__name__)
 
 # Load the model
+@app.route("/", methods=["GET"])
+def home():
+    return "<h1>Hello world</h1>"
 
 model=pickle.load(open('model2.pkl',"rb"))
 
-@app.route("/predict", methods=["POST"])
+@app.route("/predict/", methods=["POST"])
 def predict():
     try:
         # Parse JSON input
